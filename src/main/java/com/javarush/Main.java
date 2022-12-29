@@ -6,6 +6,7 @@ import com.javarush.dao.CountryDao;
 import com.javarush.domain.City;
 import com.javarush.domain.Country;
 import com.javarush.domain.CountryLanguage;
+import com.javarush.redis.CityCountry;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -33,6 +34,8 @@ public class Main {
     public static void main(String[] args) {
         Main main = new Main();
         List<City> cityList = main.fetchData(main);
+        List<CityCountry> preparedData = main.transformData(cityList);
+
         main.shutDown();
     }
 
@@ -62,7 +65,10 @@ public class Main {
     private List<City> fetchData(Main main) {
         try (Session session = main.sessionFactory.getCurrentSession()){
             List<City> cityList = new ArrayList<>();
+
             session.beginTransaction();
+
+            List<Country> countryList = main.countryDao.getAll();
 
             int totalCount = main.cityDao.getTotalCount();
             int step = 500;
@@ -75,6 +81,20 @@ public class Main {
 
             return cityList;
         }
+    }
+
+    private List<CityCountry> transformData(List<City> cities) {
+        return cities.stream().map(city -> {
+            CityCountry cityCountry = new CityCountry();
+            cityCountry.setId(city.getId());
+            cityCountry.setName(city.getName());
+            cityCountry.setDistrict(city.getDistrict());
+            cityCountry.setPopulation(city.getPopulation());
+
+            Country country = city.getCountry();
+
+
+        })
     }
 
     private void shutDown() {
