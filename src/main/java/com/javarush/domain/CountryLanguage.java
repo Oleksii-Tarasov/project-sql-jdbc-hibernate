@@ -23,7 +23,7 @@ public class CountryLanguage {
 
     @Column(name = "is_official", columnDefinition = "BIT")
     @Type(type = "org.hibernate.type.NumericBooleanType")
-    private boolean isOfficial;
+    private Boolean isOfficial;
 
     private BigDecimal percentage;
 }
