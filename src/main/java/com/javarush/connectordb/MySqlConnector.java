@@ -1,19 +1,19 @@
-package com.javarush.service;
+package com.javarush.connectordb;
 
 import com.javarush.domain.City;
 import com.javarush.domain.Country;
 import com.javarush.domain.CountryLanguage;
-import io.lettuce.core.RedisClient;
-import io.lettuce.core.RedisURI;
-import io.lettuce.core.api.StatefulRedisConnection;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 
 import java.util.Properties;
 
-public class DBConnector {
-    public SessionFactory prepareMySqlRelationalDb() {
+public class MySqlConnector {
+    private static MySqlConnector mySqlConnector;
+    private final SessionFactory sessionFactory;
+
+    private MySqlConnector() {
         Properties properties = new Properties();
         properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
         properties.put(Environment.DRIVER, "com.p6spy.engine.spy.P6SpyDriver");
@@ -24,7 +24,7 @@ public class DBConnector {
         properties.put(Environment.HBM2DDL_AUTO, "validate");
         properties.put(Environment.STATEMENT_BATCH_SIZE, "100");
 
-        return new Configuration()
+        sessionFactory = new Configuration()
                 .addAnnotatedClass(City.class)
                 .addAnnotatedClass(Country.class)
                 .addAnnotatedClass(CountryLanguage.class)
@@ -32,12 +32,11 @@ public class DBConnector {
                 .buildSessionFactory();
     }
 
-    public RedisClient prepareRedisClient() {
-        RedisClient redisClient = RedisClient.create(RedisURI.create("localhost", 6379));
-        try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
-            System.out.println("\nConnected to Redis\n");
+    public static SessionFactory getSessionFactory() {
+        if (mySqlConnector == null) {
+            mySqlConnector = new MySqlConnector();
         }
 
-        return redisClient;
+        return mySqlConnector.sessionFactory;
     }
 }
