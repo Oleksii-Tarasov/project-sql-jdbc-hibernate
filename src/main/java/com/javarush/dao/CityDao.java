@@ -6,6 +6,7 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
+
 public class CityDao {
     private final SessionFactory sessionFactory;
 
