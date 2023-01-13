@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
 public class TesterDB {
     private final SessionFactory sessionFactory;
     private final RedisClient redisClient;
@@ -42,6 +41,7 @@ public class TesterDB {
             session.beginTransaction();
             for (Integer id : CITY_ID_LIST) {
                 City city = dataHandler.getCityDao().getById(id);
+                //to make sure to get a full object (without proxy-stubs), explicitly ask the country list of languages
                 Set<CountryLanguage> languages = city.getCountry().getCountryLanguages();
             }
             session.getTransaction().commit();
@@ -52,6 +52,10 @@ public class TesterDB {
         testResultMap.put("Test execution time for MySql:", endTime - startTime);
     }
 
+    /*
+    open a synchronous connection, and for each id we get a JSON String,
+    which we convert into the CityCountry type object we need
+    */
     public void runRedisTest() {
         long startTime = System.currentTimeMillis();
 

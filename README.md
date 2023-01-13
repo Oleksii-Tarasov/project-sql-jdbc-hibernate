@@ -10,7 +10,7 @@ from the city that is slowing down.
 
 Solution: Extract all data that is requested frequently to Redis (in memory storage type key-value).
 
-We do not need all the data stored in MySQL, only the selected set of fields.
+We do not need to save in Redis all the data stored in MySQL, only the required fields.
 
 ---
 
@@ -29,6 +29,8 @@ The database dump for MySql: `dump-hibernate-final.sql` is located in the projec
 ---
 
 ### Class description
+- `Main` - entry point class. Run all tasks. 
+
 The package `connectordb` contains the classes:
 - `MySqlConnector` - configuration class for connecting to the MySql database;
 - `RedisConnector` - configuration class for connecting to the Redis database.
@@ -44,9 +46,9 @@ The package `redis` contains the classes that contain frequently requested (by t
 - `Language` - class contains language data.
 
 The package `service` contains the classes:
-- `Controller` - class interacts with databases;
+- `Controller` - task manager class;
 - `DataHandler` - class interacts with data from databases;
-- `TesterDB` - class query database testing class. 
+- `TesterDB` - database testing class. 
 
 ___
 
@@ -55,7 +57,12 @@ The directory `resources` contains:
 - `dump-hibernate-final.sql` - database dump for MySql;
 - `spy.properties` - configuration P6Spy framework to view queries with parameters that Hibernate performs.
 
+---
+
 ### Testing
-**Test for Redis:**
+The tests are conducted by sampling City-Country data(10 records) from MySql and Redis db. Each with a separate query, 
+but in one connection.
 
+**Results:**
 
+![](dist/screenshots/testscreen.JPG)

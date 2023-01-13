@@ -7,7 +7,6 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.util.Set;
 
-
 @Getter
 @Setter
 public class CityCountry {

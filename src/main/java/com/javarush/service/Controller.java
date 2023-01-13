@@ -16,7 +16,6 @@ import java.util.Map;
 
 import static java.util.Objects.nonNull;
 
-
 public class Controller {
 
     private static Controller controller;
