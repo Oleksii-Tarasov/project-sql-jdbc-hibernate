@@ -4,6 +4,7 @@ import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulRedisConnection;
 
+
 public class RedisConnector {
     private static RedisConnector redisConnector;
 

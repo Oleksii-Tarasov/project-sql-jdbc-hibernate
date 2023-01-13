@@ -14,11 +14,11 @@ public class CityDao {
     }
 
     public List<City> getItems(int offset, int limit) {
-        Query<City> cityQuery = sessionFactory.getCurrentSession().createQuery("select c from City c", City.class);
-        cityQuery.setFirstResult(offset);
-        cityQuery.setMaxResults(limit);
+        Query<City> query = sessionFactory.getCurrentSession().createQuery("select c from City c", City.class);
+        query.setFirstResult(offset);
+        query.setMaxResults(limit);
 
-        return cityQuery.list();
+        return query.list();
     }
 
     public City getById(Integer id) {
@@ -29,8 +29,8 @@ public class CityDao {
     }
 
     public int getTotalCount() {
-        Query<Long> longQuery = sessionFactory.getCurrentSession().createQuery("select count(c) from City c", Long.class);
+        Query<Long> query = sessionFactory.getCurrentSession().createQuery("select count(c) from City c", Long.class);
 
-        return Math.toIntExact(longQuery.uniqueResult());
+        return Math.toIntExact(query.uniqueResult());
     }
 }

@@ -36,7 +36,7 @@ public class DataHandler {
 
             session.beginTransaction();
 
-             List<Country> countryList = countryDao.getAll();
+            List<Country> countryList = countryDao.getAll();
 
             int totalCount = cityDao.getTotalCount();
 

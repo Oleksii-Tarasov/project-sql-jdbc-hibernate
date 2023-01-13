@@ -9,6 +9,7 @@ import org.hibernate.cfg.Environment;
 
 import java.util.Properties;
 
+
 public class MySqlConnector {
     private static MySqlConnector mySqlConnector;
     private final SessionFactory sessionFactory;
